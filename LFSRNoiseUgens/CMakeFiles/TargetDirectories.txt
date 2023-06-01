@@ -1,0 +1,8 @@
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/LFSRNoise_scsynth.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/LFSRNoise_supernova.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/edit_cache.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/rebuild_cache.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/list_install_components.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/install.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/install/local.dir
+/Users/josiahsytsma/lfsrnoiseugens/CMakeFiles/install/strip.dir

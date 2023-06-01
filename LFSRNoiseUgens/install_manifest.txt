@@ -1,0 +1,4 @@
+/Users/josiahsytsma/lfsrnoiseugens/install/LFSRNoiseUGens/LFSRNoise/LFSRNoise_scsynth.scx
+/Users/josiahsytsma/lfsrnoiseugens/install/LFSRNoiseUGens/LFSRNoise/LFSRNoise_supernova.scx
+/Users/josiahsytsma/lfsrnoiseugens/install/LFSRNoiseUGens/LFSRNoise/Classes/LFSRNoiseUGens.sc
+/Users/josiahsytsma/lfsrnoiseugens/install/LFSRNoiseUGens/LFSRNoise/HelpSource/Classes/LFSRNoise.schelp
