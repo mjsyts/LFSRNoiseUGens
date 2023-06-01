@@ -45,10 +45,14 @@ code::
 //modulate fbPos
 {LFSRNoise.ar(1000, Line.kr(1, 31, 10) )}.play;
 
-//mouse
+//mouse freq
 {LFSRNoise.ar( MouseX.kr(1, SampleRate.ir, 1) )}.play;
 
+//mouse fbPos
 {LFSRNoise.ar( SampleRate.ir, MouseX.kr(1, 31) )}.play;
+
+//mouse reign supreme
+{LFSRNoise.ar( MouseY.kr(100, 10000, 1), MouseX.kr(1, 31) )}.play;
 
 //use as a frequency control
 {SinOsc.ar(LFSRNoise.kr(10, 3, 200, 600) )}.play;
