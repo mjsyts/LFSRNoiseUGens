@@ -56,7 +56,7 @@ code::
 //8-bit rave
 (
 SynthDef(\help_LFSRNoise, {
-    var sig = LFSRNoise.ar(\freq.kr(440), \fbPos.kr(14), \amp.kr(0.5));
+    var sig = LFSRNoise.ar(\freq.kr(440), \fbPos.kr(14), \amp.kr(0.8));
     var env = Env.asr(\atk.kr(0.01), 1, \rel.kr(0.01), \lin).ar(2, \gate.kr(1)).round(15.reciprocal);
     sig = LeakDC.ar(sig);
     sig = sig * env;
