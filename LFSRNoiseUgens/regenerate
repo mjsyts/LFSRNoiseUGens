@@ -1,1 +1,0 @@
-python /Users/josiahsytsma/supercollider /tools/cmake_gen/generate_server_plugin_cmake.py -P "LFSRNoiseUGens" -p "plugins/LFSRNoise" -a "JS"

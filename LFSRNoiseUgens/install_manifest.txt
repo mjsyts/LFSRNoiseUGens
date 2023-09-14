@@ -1,4 +1,0 @@
-/Users/josiahsytsma/Library/Application Support/SuperCollider/Extensions/LFSRNoiseUGens/LFSRNoise/LFSRNoise_scsynth.scx
-/Users/josiahsytsma/Library/Application Support/SuperCollider/Extensions/LFSRNoiseUGens/LFSRNoise/LFSRNoise_supernova.scx
-/Users/josiahsytsma/Library/Application Support/SuperCollider/Extensions/LFSRNoiseUGens/LFSRNoise/Classes/LFSRNoiseUGens.sc
-/Users/josiahsytsma/Library/Application Support/SuperCollider/Extensions/LFSRNoiseUGens/LFSRNoise/HelpSource/Classes/LFSRNoise.schelp
