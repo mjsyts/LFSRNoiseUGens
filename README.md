@@ -12,7 +12,7 @@ In terminal, from the project root directory:
 ```
 cd LFSRNoiseUGens
 mkdir build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSC_PATH=<Path to SC Source>
+cmake -DCMAKE_BUILD_TYPE=Release -DSC_PATH=<Path to SC Source>
 cmake --build . --config Release
 ```
 
