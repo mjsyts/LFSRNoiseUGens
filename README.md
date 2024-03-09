@@ -3,7 +3,7 @@ SuperCollider LFSR noise generator plugin.
 
 ## Installation
 Make sure you have the SC Source (different from the application). If you do not have it, download the zip file from GitHub or in the terminal: 
-```git clone https://github.com/mjsyts/LFSRNoiseUGens```
+```git clone https://github.com/supercollider/supercollider```
 
 Download the plugin zip file from GitHub or in the terminal: 
 ```git clone https://github.com/mjsyts/LFSRNoiseUGens```
