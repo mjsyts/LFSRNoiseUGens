@@ -6,8 +6,7 @@ categories::  UGens>Generators>Stochastic
 
 Description::
 
-Pseudo-random noise that generates the values -1 or +1 at a rate given by the nearest
-integer division of the sample rate by the  code::freq:: argument.
+Pseudo-random noise that generates the values -1 or +1 based on a Linear Feedback Shift Register.
 
 Generates a periodic waveform capable of a range of complex tones from square waves to pseudo-random "pitched" noise.
 Probably not great for your speakers at high amplitudes. Very low frequency values will cause lengthy periods of DC offset.
@@ -17,7 +16,7 @@ classmethods::
 method::ar, kr
 
 argument::freq
-Approximate rate at which to generate values.
+Rate at which to generate values.
 
 argument::fbIndex
 Bitwise index (1-31, zero-based) to insert new values. Related to LFSR cycle period.
