@@ -9,7 +9,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_SHARED_MODULE_PREFIX "")
 if(APPLE OR WIN32)
-set(CMAKE_SHARED_MODULE_SUFFIX ".scx")
+    set(CMAKE_SHARED_MODULE_SUFFIX ".scx")
 endif()
 
-add_library(LFSRNoise MODULE LFSRNoise.cpp)
+set(SOURCE_FILES LFSRNoise.cpp LFSRNoise.hpp)
+
+add_library(LFSRNoise MODULE ${SOURCE_FILES})
