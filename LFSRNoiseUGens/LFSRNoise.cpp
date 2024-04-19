@@ -1,74 +1,61 @@
 // PluginLFSRNoise.cpp
-// josiah sytsma (sytsma dot music at icloud dot com)
+// M. Josiah Sytsma (sytsma.music@icloud.com)
 
-#include "SC_PlugIn.h"
+#include "SC_PlugIn.hpp"
+#include "LFSRNoise.hpp"
 
-static InterfaceTable *ft;
+static InterfaceTable* ft;
 
-struct LFSRNoise : public Unit {
-    uint32_t    mState; //lfsr state
-    uint32_t    mCounter; //sample counter
-    uint32_t    mSeed; //seed 1 or UINT32_MAX
-    float       mPrevTrig;
-    float       mLevel; //output
-    bool        triggered(float inTrig);
-};
-
-void LFSRNoise_Ctor(LFSRNoise *unit);
-void LFSRNoise_next(LFSRNoise *unit, int inNumSamples);
-
-void LFSRNoise_Ctor(LFSRNoise *unit) {
+LFSRNoise::LFSRNoise() {
     //set calc function
-    SETCALC(LFSRNoise_next);
+    mCalcFunc = make_calc_function<LFSRNoise, &LFSRNoise::next>();
     
     //initialize member variables
-    unit->mSeed = UINT32_MAX;
-    unit->mState = UINT32_MAX;
-    unit->mCounter = 0;
-    unit->mLevel = 0.f;
+    mSeed = UINT32_MAX;
+    mState = UINT32_MAX;
+    mCounter = 0;
+    mLevel = 0.f;
+    mPhase = 0.0;
     
     //calculate one sample
-    LFSRNoise_next(unit, 1);
+    next(1);
 }
 
-inline bool LFSRNoise::triggered(float trigIn) {
-    return trigIn > 0.f && mPrevTrig <= 0.f;
-}
+void LFSRNoise::next(int inNumSamples) {
+    float *outbuf = out(0);
+    float freq = in0(0); // Frequency input
+    int fbPos = sc_clip(static_cast<int>(in0(1)), 1, 31); // Feedback position input
+    float curTrig = in0(2); // Trigger input
+    float seedType = in0(3); // Seed type input
+    
+    float phase = mPhase;
+    float phaseInc = freq / sampleRate(); // Phase increment per sample
 
-void LFSRNoise_next(LFSRNoise *unit, int inNumSamples) {
-    float* out = ZOUT(0);
-    float freq = IN0(0);
-    int fbPos = sc_clip(static_cast<int>(IN0(1)), 1, 31);
-    float curTrig = IN0(2);
-    float seedType = IN0(3);
+    uint32 seed = mSeed;
+    uint32 state = mState;
+    float level = mLevel;
     
-    uint32 seed = unit->mSeed;
-    uint32 state = unit->mState;
-    uint32 counter = unit->mCounter;
-    float level = unit->mLevel;
+    // Reset seed based on type
+    if (seedType < 0) {
+        seed = UINT32_MAX;  // All 1's
+    } else if (seedType == 0) {
+        seed = ~(~0u << fbPos);  // Up to fbIndex 1's
+    } else {
+        seed = 1;  // Single bit
+    }
     
-    int remain = inNumSamples;
-    do {
-        if (counter <= 0) {
-            counter = static_cast<int>(SAMPLERATE / sc_max(freq, .001f));
-            counter = sc_max(1, counter);
-            
-            //check seed type
-            if (seedType < 0) {
-                seed = UINT32_MAX;  // All 1's
-            } else if (seedType == 0) {
-                seed = ~(~0u << fbPos);  // Up to fbIndex 1's
-            } else {
-                seed = 1;  // 1
-            }
-            
-            //reset
-            if (state == 0 || unit->triggered(curTrig)) {
+    for (int i = 0; i < inNumSamples; ++i) {
+        phase += phaseInc;
+        if (phase >= maxPhase) {
+            phase -= maxPhase; // Wrap phase
+
+            // Check reset trigger
+            if (state == 0 || triggered(curTrig)) {
                 state = seed;
             }
-            unit->mPrevTrig = curTrig;
+            mPrevTrig = curTrig;
             
-            //step
+            // Step LFSR
             int newbit = state & 1;
             state >>= 1;
             newbit ^= state & 1;
@@ -76,26 +63,23 @@ void LFSRNoise_next(LFSRNoise *unit, int inNumSamples) {
             int mask = (1 << fbPos);
             state = ((state & ~mask) | (newbit << fbPos));
             
-            //level value
+            // Update level based on LFSR state
             level = (state & 1) ? 1.0f : -1.0f;
         }
-        int nsmps = sc_min(remain, counter);
-        remain -= nsmps;
-        counter -= nsmps;
-        for (int i = 0; i < nsmps; i++) {
-            ZXP(out) = level;
-        }
-    } while (remain);
-    
-    //update member variables
-    unit->mSeed = seed;
-    unit->mState = state;
-    unit->mLevel = level;
-    unit->mCounter = counter;
+        outbuf[i] = level;
+    }
+
+    // Store local variables back to member variables
+    mSeed = seed;
+    mState = state;
+    mLevel = level;
+    mPhase = phase; // Save the updated phase
 }
 
-
-PluginLoad(InterfaceTable *inTable) {
+PluginLoad(LFSRNoiseUGens) {
+    // Plugin magic
     ft = inTable;
-    DefineSimpleUnit(LFSRNoise);
+    registerUnit<LFSRNoise>(ft, "LFSRNoise", false);
 }
+
+
